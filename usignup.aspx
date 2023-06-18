@@ -110,7 +110,7 @@
                             <div class="col-md-6">
                                 <label for="TextBox5" class="form-label">Member ID</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="memberid" runat="server" placeholder="Member ID"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="memberid" runat="server" placeholder="Member ID" ReadOnly="True"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">

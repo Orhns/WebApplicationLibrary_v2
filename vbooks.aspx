@@ -1,9 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/masterpage.Master" AutoEventWireup="true" CodeBehind="vbooks.aspx.cs" Inherits="WebApplicationLibrary_v2.vbooks" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript">
-            $(document).ready(function () {
-                $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
-            });
+        $(document).ready(function () {
+            $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+        });
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -70,9 +70,7 @@
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-12">
-                                                                        Cost -
-                                                                        <asp:Label ID="Label9" runat="server" Font-Bold="True" Text='<%# Eval("book_cost") %>'></asp:Label>
-                                                                        &nbsp;| Actual Stock -
+                                                                        Actual Stock -
                                                                         <asp:Label ID="Label10" runat="server" Font-Bold="True" Text='<%# Eval("actual_stock") %>'></asp:Label>
                                                                         &nbsp;| Available -
                                                                         <asp:Label ID="Label11" runat="server" Font-Bold="True" Text='<%# Eval("current_stock") %>'></asp:Label>

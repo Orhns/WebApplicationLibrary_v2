@@ -32,8 +32,8 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM member_master_tbl WHERE member_id = @mid AND password = @mpass ;", con);
-                cmd.Parameters.AddWithValue("@mid", memberid.Text.Trim());
+                SqlCommand cmd = new SqlCommand("SELECT * FROM member_master_tbl WHERE email = @email AND password = @mpass ;", con);
+                cmd.Parameters.AddWithValue("@email", email.Text.Trim());
                 cmd.Parameters.AddWithValue("@mpass", mpassword.Text.Trim());
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
@@ -51,7 +51,7 @@ namespace WebApplicationLibrary_v2
                 }
                 else
                 {
-                    Response.Write("<script>alert('invalid memberid or password.');</script>");
+                    Response.Write("<script>alert('Invalid e-mail or password.');</script>");
                 }
             }
             catch (Exception ex)
@@ -60,5 +60,6 @@ namespace WebApplicationLibrary_v2
             }
             return chckUsr;
         }
+
     }
 }

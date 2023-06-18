@@ -24,24 +24,12 @@ namespace WebApplicationLibrary_v2
             {
                 getAuthorPublisherValues();
             }
-            GridView1.DataBind(); 
-        }
-
-        protected void getBtn_Click(object sender, EventArgs e)
-        {
-            getBookByID();
+            //GridView1.DataBind();
         }
 
         protected void addBtn_Click(object sender, EventArgs e)
         {
-            if (chechBookID())
-            {
-                Response.Write("<script>alert('Book ID is already taken')</script>");
-            }
-            else
-            {
-                addNewBook();
-            }
+            addNewBook();
         }
 
         protected void updateBtn_Click(object sender, EventArgs e)
@@ -51,18 +39,8 @@ namespace WebApplicationLibrary_v2
 
         protected void deleteBtn_Click(object sender, EventArgs e)
         {
-            if (chechBookID() == false)
-            {
-                Response.Write("<script>alert('Unknown Member ID')</script>");
-            }
-            else
-            {
-                deleteBookByID();
-                Response.Write("<script>alert('Book deleted succesfully.')</script>");
-                GridView1.DataBind();
-                //clearForm();
-            }
-            //clearForm();
+            deleteBookByID();
+            GridView1.DataBind();
         }
 
         void getAuthorPublisherValues()
@@ -82,6 +60,7 @@ namespace WebApplicationLibrary_v2
                 DropDownAuthors.DataValueField = "author_name";
                 DropDownAuthors.DataBind();
 
+
                 cmd = new SqlCommand("SELECT DISTINCT publisher_name FROM book_master_tbl ;", con);
                 adapter = new SqlDataAdapter(cmd);
                 dt = new DataTable();
@@ -95,7 +74,7 @@ namespace WebApplicationLibrary_v2
                 Response.Write("<script>alert('" + ex.Message + "')</script>");
             }
         }
-        void getBookByID()
+        void getBookByName()
         {
             try
             {
@@ -104,23 +83,23 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM book_master_tbl WHERE book_id =@book_id;", con);
-                cmd.Parameters.AddWithValue("@book_id", bookIDtxt.Text.Trim());
+                SqlCommand cmd = new SqlCommand("SELECT * FROM book_master_tbl WHERE book_name LIKE @book_name ;", con);
+                cmd.Parameters.AddWithValue("@book_name", "%" + bookNametxt.Text.Trim() + "%");
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
                 if (dt.Rows.Count > 0)
                 {
+                    bookIDtxt.Text = dt.Rows[0]["book_id"].ToString();
                     bookNametxt.Text = dt.Rows[0]["book_name"].ToString();
                     publishDatetxt.Text = dt.Rows[0]["publish_date"].ToString();
                     editiontxt.Text = dt.Rows[0]["edition"].ToString();
                     editiontxt.Text = dt.Rows[0]["edition"].ToString();
-                    bookcosttxt.Text = dt.Rows[0]["book_cost"].ToString().Trim();
                     pagestxt.Text = dt.Rows[0]["no_of_pages"].ToString().Trim();
                     actualstocktxt.Text = dt.Rows[0]["actual_stock"].ToString().Trim();
                     currentstocktxt.Text = dt.Rows[0]["current_stock"].ToString().Trim();
                     description.Text = dt.Rows[0]["book_description"].ToString();
-                    issuedbookstxt.Text = ""+ (Convert.ToInt32(dt.Rows[0]["actual_stock"].ToString()) - 
+                    issuedbookstxt.Text = "" + (Convert.ToInt32(dt.Rows[0]["actual_stock"].ToString()) -
                         Convert.ToInt32(dt.Rows[0]["current_stock"].ToString()));
 
 
@@ -181,10 +160,9 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("INSERT INTO book_master_tbl (book_id,book_name,genre,author_name,publisher_name," +
-                    "publish_date,language,edition,book_cost,no_of_pages,book_description,actual_stock,current_stock,book_img_link)" +
-                    " VALUES (@bID,@bNAME,@genre,@aName,@pName,@pDate,@language,@edition,@bCost,@noPages,@bDesc,@aStock,@cStock,@imgLink)", con);
-                cmd.Parameters.AddWithValue("@bID", bookIDtxt.Text.Trim());
+                SqlCommand cmd = new SqlCommand("INSERT INTO book_master_tbl (book_name,genre,author_name,publisher_name," +
+                    "publish_date,language,edition,no_of_pages,book_description,actual_stock,current_stock,book_img_link)" +
+                    " VALUES (@bNAME,@genre,@aName,@pName,@pDate,@language,@edition,@noPages,@bDesc,@aStock,@cStock,@imgLink)", con);
                 cmd.Parameters.AddWithValue("@bNAME", bookNametxt.Text.Trim());
                 cmd.Parameters.AddWithValue("@genre", genres);
                 cmd.Parameters.AddWithValue("@aName", DropDownAuthors.SelectedValue.ToString());
@@ -192,7 +170,6 @@ namespace WebApplicationLibrary_v2
                 cmd.Parameters.AddWithValue("@pDate", publishDatetxt.Text.Trim());
                 cmd.Parameters.AddWithValue("@language", DropDownLanguage.SelectedItem.Value);
                 cmd.Parameters.AddWithValue("@edition", editiontxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@bCost", bookcosttxt.Text.Trim());
                 cmd.Parameters.AddWithValue("@noPages", pagestxt.Text.Trim());
                 cmd.Parameters.AddWithValue("@bDesc", description.Text.Trim());
                 cmd.Parameters.AddWithValue("@aStock", actualstocktxt.Text.Trim());
@@ -209,123 +186,88 @@ namespace WebApplicationLibrary_v2
                 Response.Write("<script>alert('" + ex.Message + "')</script>");
             }
         }
-        bool checkTheBookExist()
+        void updateBookByID()
         {
+
             try
             {
+                int actual_stock = Convert.ToInt32(actualstocktxt.Text.Trim());
+                int current_stock = Convert.ToInt32(currentstocktxt.Text.Trim());
+
+                if (global_actual_stock == actual_stock)
+                {
+
+                }
+                else
+                {
+                    if (actual_stock < global_issued_books)
+                    {
+                        Response.Write("<script>alert('Actual stock cannot be less than the issued books')</script>");
+                        return;
+                    }
+                    else
+                    {
+                        current_stock = actual_stock - global_issued_books;
+                        currentstocktxt.Text = "" + current_stock;
+                    }
+                }
+
+
+                string genres = "";
+                foreach (int i in ListBoxGenre.GetSelectedIndices())
+                {
+                    genres = genres + ListBoxGenre.Items[i] + ",";
+                }
+                genres = genres.Remove(genres.Length - 1);
+
+                string filepath = "~/book_inventory/books1";
+                string filename = Path.GetFileName(FileUpload1.PostedFile.FileName);
+                if (filename == "" || filename == null)
+                {
+                    filepath = global_filepath;
+                }
+                else
+                {
+                    FileUpload1.SaveAs(Server.MapPath("book_inventory/" + filename));
+                    filepath = "~/book_inventory/" + filename;
+                }
+
+
+
                 SqlConnection con = new SqlConnection(conn);
                 if (con.State == ConnectionState.Closed)
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM book_master_tbl WHERE book_id = @bID;", con);
-                cmd.Parameters.AddWithValue("@bID", bookIDtxt.Text.Trim());
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    checkidhelper = true;
-                }
-                else
-                {
-                    checkidhelper = false;
-                }
+                SqlCommand cmd = new SqlCommand("UPDATE book_master_tbl SET book_name=@book_name,genre=@genre,author_name=@author_name" +
+                    ",publisher_name=@publisher_name,publish_date=@publish_date,language=@language,edition=@edition "+
+                    ",no_of_pages=@no_of_pages,book_description=@book_description,actual_stock=@actual_stock,current_stock=@current_stock" +
+                    ",book_img_link=@book_img_link WHERE book_id = @book_id;", con);
+                cmd.Parameters.AddWithValue("@book_id", bookIDtxt.Text.Trim());
+                cmd.Parameters.AddWithValue("@book_name", bookNametxt.Text.Trim());
+                cmd.Parameters.AddWithValue("@genre", genres);
+                cmd.Parameters.AddWithValue("@author_name", DropDownAuthors.SelectedItem.Value);
+                cmd.Parameters.AddWithValue("@publisher_name", DropDownPublishers.SelectedItem.Value);
+                cmd.Parameters.AddWithValue("@publish_date", publishDatetxt.Text.Trim());
+                cmd.Parameters.AddWithValue("@language", DropDownLanguage.SelectedItem.Value);
+                cmd.Parameters.AddWithValue("@edition", editiontxt.Text.Trim());
+                cmd.Parameters.AddWithValue("@no_of_pages", pagestxt.Text.Trim());
+                cmd.Parameters.AddWithValue("@book_description", description.Text.Trim());
+                cmd.Parameters.AddWithValue("@actual_stock", actual_stock.ToString());
+                cmd.Parameters.AddWithValue("@current_stock", current_stock.ToString());
+                cmd.Parameters.AddWithValue("@book_img_link", filepath);
+
+                cmd.ExecuteNonQuery();
                 con.Close();
+                GridView1.DataBind();
+                Response.Write("<script>alert('Book updated succesfully.')</script>");
             }
             catch (Exception ex)
             {
                 Response.Write("<script>alert('" + ex.Message + "')</script>");
             }
-            return checkidhelper;
-        }
-        void updateBookByID()
-        {
-            if (checkTheBookExist())
-            {
-                try
-                {
-                    int actual_stock = Convert.ToInt32(actualstocktxt.Text.Trim());
-                    int current_stock = Convert.ToInt32(currentstocktxt.Text.Trim()) ;
-
-                    if (global_actual_stock == actual_stock) {
-
-                    }
-                    else
-                    {
-                        if (actual_stock < global_issued_books)
-                        {
-                            Response.Write("<script>alert('Actual stock cannot be less than the issued books')</script>");
-                            return;
-                        }
-                        else
-                        {
-                            current_stock = actual_stock - global_issued_books;
-                            currentstocktxt.Text = "" + current_stock;
-                        }
-                    }
 
 
-                    string genres = "";
-                    foreach (int i in ListBoxGenre.GetSelectedIndices())
-                    {
-                        genres = genres + ListBoxGenre.Items[i] + ",";
-                    }
-                    genres = genres.Remove(genres.Length - 1);
-
-                    string filepath = "~/book_inventory/books1";
-                    string filename = Path.GetFileName(FileUpload1.PostedFile.FileName);
-                    if (filename == "" || filename == null)
-                    {
-                        filepath = global_filepath;
-                    }
-                    else
-                    {
-                        FileUpload1.SaveAs(Server.MapPath("book_inventory/" + filename));
-                        filepath = "~/book_inventory/" + filename;
-                    }
-
-
-
-                    SqlConnection con = new SqlConnection(conn);
-                    if (con.State == ConnectionState.Closed)
-                    {
-                        con.Open();
-                    }
-                    SqlCommand cmd = new SqlCommand("UPDATE book_master_tbl SET book_name=@book_name,genre=@genre,author_name=@author_name" +
-                        ",publisher_name=@publisher_name,publish_date=@publish_date,language=@language,edition=@edition,book_cost=@book_cost" +
-                        ",no_of_pages=@no_of_pages,book_description=@book_description,actual_stock=@actual_stock,current_stock=@current_stock" +
-                        ",book_img_link=@book_img_link WHERE book_id = @book_id;", con);
-                    cmd.Parameters.AddWithValue("@book_id", bookIDtxt.Text.Trim());
-                    cmd.Parameters.AddWithValue("@book_name", bookNametxt.Text.Trim());
-                    cmd.Parameters.AddWithValue("@genre", genres);
-                    cmd.Parameters.AddWithValue("@author_name", DropDownAuthors.SelectedItem.Value);
-                    cmd.Parameters.AddWithValue("@publisher_name", DropDownPublishers.SelectedItem.Value);
-                    cmd.Parameters.AddWithValue("@publish_date", publishDatetxt.Text.Trim());
-                    cmd.Parameters.AddWithValue("@language", DropDownLanguage.SelectedItem.Value);
-                    cmd.Parameters.AddWithValue("@edition", editiontxt.Text.Trim());
-                    cmd.Parameters.AddWithValue("@book_cost", bookcosttxt.Text.Trim());
-                    cmd.Parameters.AddWithValue("@no_of_pages", pagestxt.Text.Trim());
-                    cmd.Parameters.AddWithValue("@book_description", description.Text.Trim());
-                    cmd.Parameters.AddWithValue("@actual_stock", actual_stock.ToString());
-                    cmd.Parameters.AddWithValue("@current_stock", current_stock.ToString());
-                    cmd.Parameters.AddWithValue("@book_img_link", filepath);
-                    
-
-
-
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                    GridView1.DataBind();
-                    Response.Write("<script>alert('Book updated succesfully.')</script>");
-                }
-                catch (Exception ex)
-                {
-                    Response.Write("<script>alert('" + ex.Message + "')</script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>alert('Invalid Book ID');</script>");
-            }
         }
         void deleteBookByID()
         {
@@ -349,37 +291,57 @@ namespace WebApplicationLibrary_v2
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Get the currently selected row using the SelectedRow property.
+            GridViewRow row = GridView1.SelectedRow;
+
+            // Display the first name from the selected row.
+            // In this example, the third column (index 2) contains
+            // the first name.
+
+            string msg = "You selected " + row.Cells[1].Text + ".";
+
+            Response.Write("<script>alert('" + msg + "')</script>");
         }
 
-        bool checkidhelper;
-        bool chechBookID()
+        protected void addPublisherBtn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                SqlConnection con = new SqlConnection(conn);
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM book_master_tbl WHERE book_id = @bookID OR book_name = @bName;", con);
-                cmd.Parameters.AddWithValue("@bookID", bookIDtxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@bName", bookNametxt.Text.Trim());
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    checkidhelper = true;
-                }
-                else
-                {
-                    checkidhelper = false;
-                }
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "')</script>");
-            }
-            return checkidhelper;
+            DropDownPublishers.Items.Add(addPublisherTxt.Text);
+            DropDownPublishers.SelectedIndex = DropDownPublishers.Items.Count - 1;
         }
+
+        protected void GridView1_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+        {
+            // Get the currently selected row. Because the SelectedIndexChanging event
+            // occurs before the select operation in the GridView control, the
+            // SelectedRow property cannot be used. Instead, use the Rows collection
+            // and the NewSelectedIndex property of the e argument passed to this 
+            // event handler.
+            GridViewRow row = GridView1.Rows[e.NewSelectedIndex];
+
+            // You can cancel the select operation by using the Cancel
+            // property. For this example, if the user selects a customer with 
+            // the ID "ANATR", the select operation is canceled and an error message
+            // is displayed.
+            if (row.Cells[1].Text == "ANATR")
+            {
+                e.Cancel = true;
+                string msg2 = "You cannot select " + row.Cells[2].Text + ".";
+
+                Response.Write("<script>alert('" + msg2 + "')</script>");
+            }
+
+        }
+
+        protected void AddAuthorBtn_Click(object sender, EventArgs e)
+        {
+            DropDownAuthors.Items.Add(addAuthorTxt.Text);
+            DropDownAuthors.SelectedIndex = DropDownAuthors.Items.Count - 1;
+        }
+
+        protected void ButtonGet_Click(object sender, EventArgs e)
+        {
+            getBookByName();
+        }
+
     }
 }

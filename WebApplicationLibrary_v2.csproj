@@ -164,10 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="adminlogin.aspx" />
-    <Content Include="a_author_mng.aspx" />
     <Content Include="a_book_iss.aspx" />
     <Content Include="a_book_inventory.aspx" />
-    <Content Include="a_publisher_mng.aspx" />
     <Content Include="a_usrmng.aspx" />
     <Content Include="book_inventory\1984.png" />
     <Content Include="book_inventory\books1.png" />
@@ -2263,6 +2261,8 @@
     <Content Include="ulogin.aspx" />
     <Content Include="vbooks.aspx" />
     <Content Include="Web.config" />
+    <Content Include="getBooks111.aspx" />
+    <Content Include="get_books.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="adminlogin.aspx.cs">
@@ -2271,13 +2271,6 @@
     </Compile>
     <Compile Include="adminlogin.aspx.designer.cs">
       <DependentUpon>adminlogin.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="a_author_mng.aspx.cs">
-      <DependentUpon>a_author_mng.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="a_author_mng.aspx.designer.cs">
-      <DependentUpon>a_author_mng.aspx</DependentUpon>
     </Compile>
     <Compile Include="a_book_iss.aspx.cs">
       <DependentUpon>a_book_iss.aspx</DependentUpon>
@@ -2292,13 +2285,6 @@
     </Compile>
     <Compile Include="a_book_inventory.aspx.designer.cs">
       <DependentUpon>a_book_inventory.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="a_publisher_mng.aspx.cs">
-      <DependentUpon>a_publisher_mng.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="a_publisher_mng.aspx.designer.cs">
-      <DependentUpon>a_publisher_mng.aspx</DependentUpon>
     </Compile>
     <Compile Include="a_usrmng.aspx.cs">
       <DependentUpon>a_usrmng.aspx</DependentUpon>
@@ -2349,6 +2335,20 @@
     </Compile>
     <Compile Include="vbooks.aspx.designer.cs">
       <DependentUpon>vbooks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="getBooks111.aspx.cs">
+      <DependentUpon>getBooks111.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="getBooks111.aspx.designer.cs">
+      <DependentUpon>getBooks111.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="get_books.aspx.cs">
+      <DependentUpon>get_books.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="get_books.aspx.designer.cs">
+      <DependentUpon>get_books.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

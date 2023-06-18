@@ -20,19 +20,19 @@ namespace WebApplicationLibrary_v2
         //signup button
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if (checkID())
+            if (checkEmail())
             {
-                Response.Write("<script>alert('userid is already taken')</script>");
+                Response.Write("<script>alert('This E-Mail is already taken.')</script>");
             }
             else
             {
                 signupNewUser();
-            }   
+            }
         }
 
         bool checkidhelper;
-        bool checkID()
-        {  
+        bool checkEmail()
+        {
             try
             {
                 SqlConnection con = new SqlConnection(conn);
@@ -40,12 +40,14 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM member_master_tbl WHERE member_id =@mid", con);
-                cmd.Parameters.AddWithValue("@mid", memberid.Text.Trim());
+                SqlCommand cmd = new SqlCommand("SELECT * FROM member_master_tbl WHERE email =@email", con);
+                cmd.Parameters.AddWithValue("@email", email.Text.Trim());
                 SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows) {
+                if (reader.HasRows)
+                {
                     checkidhelper = true;
-                } else
+                }
+                else
                 {
                     checkidhelper = false;
                 }
@@ -57,7 +59,7 @@ namespace WebApplicationLibrary_v2
             }
             return checkidhelper;
         }
-        
+
         void signupNewUser()
         {
             try
@@ -68,12 +70,11 @@ namespace WebApplicationLibrary_v2
                     con.Open();
                 }
                 SqlCommand cmd = new SqlCommand("INSERT INTO member_master_tbl" +
-                    "([member_id],[password],[full_name],[birthdate],[contact_no],[email],[state]," +
-                    "[city],[pincode],[full_address],[account_status]) VALUES " +
-                    "(@member_id,@password,@full_name,@birthdate,@contact_no," +
-                    "@email,@state,@city,@pincode,@full_address,@account_status)", con);
+                    "([password],[full_name],[birthdate],[contact_no],[email],[state]," +
+                    "[city],[pincode],[full_address]) VALUES " +
+                    "(@password,@full_name,@birthdate,@contact_no," +
+                    "@email,@state,@city,@pincode,@full_address)", con);
 
-                cmd.Parameters.AddWithValue("@member_id", memberid.Text.Trim());
                 cmd.Parameters.AddWithValue("@password", password.Text.Trim());
                 cmd.Parameters.AddWithValue("@full_name", fullname.Text.Trim());
                 cmd.Parameters.AddWithValue("@birthdate", birthdate.Text.Trim());
@@ -83,7 +84,6 @@ namespace WebApplicationLibrary_v2
                 cmd.Parameters.AddWithValue("@city", city.Text.Trim());
                 cmd.Parameters.AddWithValue("@pincode", pincode.Text.Trim());
                 cmd.Parameters.AddWithValue("@full_address", fulladdress.Text.Trim());
-                cmd.Parameters.AddWithValue("@account_status", "pending");
 
                 cmd.ExecuteNonQuery();
                 con.Close();

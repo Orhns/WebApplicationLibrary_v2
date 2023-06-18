@@ -22,8 +22,6 @@
                             <div class="col-md-10 m-auto">
                                 <center>
                                     <h4 class="mt-2 ">Profile</h4>
-                                    <span>Account Status - </span>
-                                    <asp:Label ID="Label1" runat="server" Text="Your Status" class="badge rounded-pill text-bg-success"></asp:Label>
                                 </center>
                             </div>
                         </div>
@@ -114,13 +112,13 @@
                             <div class="col-md-4">
                                 <label for="TextBox5" class="form-label">User ID</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="userIDTxt" runat="server" placeholder="User ID" Enabled="False"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="userIDTxt" runat="server" placeholder="User ID" Enabled="False" ReadOnly="True"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="TextBox9" class="form-label">Old password</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="oldpassTxt" runat="server" placeholder="Password" Enabled="False" ReadOnly="True"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="oldpassTxt" runat="server" placeholder="" Enabled="False" ReadOnly="True" TextMode="Password"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">

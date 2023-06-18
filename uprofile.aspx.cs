@@ -71,7 +71,7 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("update member_master_tbl set full_name=@full_name, birthdate=@birthdate, contact_no=@contact_no, email=@email, state=@state, city=@city, pincode=@pincode, full_address=@full_address, password=@password, account_status=@account_status WHERE member_id=@member_id ;", con);
+                SqlCommand cmd = new SqlCommand("update member_master_tbl set full_name=@full_name, birthdate=@birthdate, contact_no=@contact_no, email=@email, state=@state, city=@city, pincode=@pincode, full_address=@full_address, password=@password WHERE member_id=@member_id ;", con);
                 cmd.Parameters.AddWithValue("@member_id", Session["memberid"].ToString().Trim());
                 cmd.Parameters.AddWithValue("@full_name", nameTxt.Text.Trim());
                 cmd.Parameters.AddWithValue("@birthdate", birthdateTxt.Text.Trim());
@@ -82,8 +82,6 @@ namespace WebApplicationLibrary_v2
                 cmd.Parameters.AddWithValue("@pincode", pincodeTxt.Text.Trim());
                 cmd.Parameters.AddWithValue("@full_address", addressTxt.Text.Trim());
                 cmd.Parameters.AddWithValue("@password", password);
-                cmd.Parameters.AddWithValue("@account_status", "pending");
-
                 int result = cmd.ExecuteNonQuery();
 
                 con.Close();
@@ -156,26 +154,6 @@ namespace WebApplicationLibrary_v2
                 addressTxt.Text = dt.Rows[0]["full_address"].ToString();
                 userIDTxt.Text = dt.Rows[0]["member_id"].ToString();
                 oldpassTxt.Text = dt.Rows[0]["password"].ToString();
-
-                Label1.Text = dt.Rows[0]["account_status"].ToString().Trim();
-
-                if (dt.Rows[0]["account_status"].ToString().Trim() == "active")
-                {
-                    Label1.Attributes.Add("class", "badge rounded-pill text-bg-success");
-                }
-                else if (dt.Rows[0]["account_status"].ToString().Trim() == "pending")
-                {
-                    Label1.Attributes.Add("class", "badge rounded-pill text-bg-warning");
-                }
-                else if (dt.Rows[0]["account_status"].ToString().Trim() == "deactive")
-                {
-                    Label1.Attributes.Add("class", "badge rounded-pill text-bg-danger");
-                }
-                else
-                {
-                    Label1.Attributes.Add("class", "badge rounded-pill badge-info");
-                }
-
 
             }
             catch (Exception ex)
