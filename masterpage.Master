@@ -94,10 +94,6 @@
                         <p>
                             <asp:LinkButton class="footerlinks" ID="LinkButton6" runat="server" OnClick="LinkButton6_Click">Admin Login</asp:LinkButton>
                             &nbsp;
-                            <asp:LinkButton class="footerlinks" ID="LinkButton11" runat="server" OnClick="LinkButton11_Click" Visible="False">Author Management</asp:LinkButton>
-                            &nbsp;
-                            <asp:LinkButton class="footerlinks" ID="LinkButton12" runat="server" OnClick="LinkButton12_Click" Visible="False">Publisher Management</asp:LinkButton>
-                            &nbsp;
                             <asp:LinkButton class="footerlinks" ID="LinkButton8" runat="server" OnClick="LinkButton8_Click" Visible="False">Book Inventory</asp:LinkButton>
                             &nbsp;
                             <asp:LinkButton class="footerlinks" ID="LinkButton9" runat="server" OnClick="LinkButton9_Click" Visible="False">Book Issuing</asp:LinkButton>

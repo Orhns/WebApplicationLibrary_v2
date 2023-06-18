@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.IO;
 
+
 namespace WebApplicationLibrary_v2
 {
     public partial class a_book_inventory : System.Web.UI.Page
@@ -16,6 +17,7 @@ namespace WebApplicationLibrary_v2
         string conn = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         static string global_filepath;
         static int global_actual_stock, global_current_stock, global_issued_books;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -72,7 +74,7 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("SELECT author_name FROM author_master_tbl ;", con);
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT author_name FROM book_master_tbl ;", con);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -80,7 +82,7 @@ namespace WebApplicationLibrary_v2
                 DropDownAuthors.DataValueField = "author_name";
                 DropDownAuthors.DataBind();
 
-                cmd = new SqlCommand("SELECT publisher_name FROM publisher_master_tbl ;", con);
+                cmd = new SqlCommand("SELECT DISTINCT publisher_name FROM book_master_tbl ;", con);
                 adapter = new SqlDataAdapter(cmd);
                 dt = new DataTable();
                 adapter.Fill(dt);
@@ -343,6 +345,10 @@ namespace WebApplicationLibrary_v2
             {
                 Response.Write("<script>alert('" + ex.Message + "')</script>");
             }
+        }
+
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
         }
 
         bool checkidhelper;
