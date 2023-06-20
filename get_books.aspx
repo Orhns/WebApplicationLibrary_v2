@@ -9,10 +9,15 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-md-9">
                                 <center>
                                     <h4 class="mt-2 ">Book Inventory list</h4>
                                 </center>
+                            </div>
+                            <div class="col-md-3" >
+                                <asp:Button ID="getbookBtn" runat="server" Text="Borrow this book." OnClick="getbookBtn_Click"
+                                    CssClass="btn btn-block form-control green"
+                                    OnClientClick="return confirm('are you sure?')"  />
                             </div>
                         </div>
                         <div class="row">
@@ -23,7 +28,7 @@
                         <div class="row">
                             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [book_master_tbl]"></asp:SqlDataSource>
                             <div class="col">
-                                <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="book_id" DataSourceID="SqlDataSource1">
+                                <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="book_id" DataSourceID="SqlDataSource1" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
                                     <Columns>
                                         <asp:CommandField ShowSelectButton="True" />
                                         <asp:BoundField DataField="book_id" HeaderText="ID" ReadOnly="True" SortExpression="book_id">

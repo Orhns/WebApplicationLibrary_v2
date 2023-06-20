@@ -41,7 +41,7 @@ namespace WebApplicationLibrary_v2
                     while (reader.Read())
                     {
                         Response.Write("<script>alert('logged in successfully');</script>");
-                        Session["memberid"] = reader.GetValue(0).ToString();
+                        Session["memberid"] = reader.GetValue(0);
                         Session["fullname"] = reader.GetValue(2).ToString();
                         Session["role"] = "user";
                         Session["status"] = reader.GetValue(10).ToString();

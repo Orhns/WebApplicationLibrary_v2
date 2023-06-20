@@ -33,15 +33,6 @@ namespace WebApplicationLibrary_v2
         protected global::System.Web.UI.WebControls.TextBox bookNametxt;
 
         /// <summary>
-        /// ButtonGet control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonGet;
-
-        /// <summary>
         /// DropDownPublishers control.
         /// </summary>
         /// <remarks>

@@ -74,7 +74,7 @@ namespace WebApplicationLibrary_v2
                 Response.Write("<script>alert('" + ex.Message + "')</script>");
             }
         }
-        void getBookByName()
+        void getBookByID(int bookID)
         {
             try
             {
@@ -83,8 +83,8 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM book_master_tbl WHERE book_name LIKE @book_name ;", con);
-                cmd.Parameters.AddWithValue("@book_name", "%" + bookNametxt.Text.Trim() + "%");
+                SqlCommand cmd = new SqlCommand("SELECT * FROM book_master_tbl WHERE book_id=@book_id ;", con);
+                cmd.Parameters.AddWithValue("@book_id", bookID);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -240,7 +240,7 @@ namespace WebApplicationLibrary_v2
                     con.Open();
                 }
                 SqlCommand cmd = new SqlCommand("UPDATE book_master_tbl SET book_name=@book_name,genre=@genre,author_name=@author_name" +
-                    ",publisher_name=@publisher_name,publish_date=@publish_date,language=@language,edition=@edition "+
+                    ",publisher_name=@publisher_name,publish_date=@publish_date,language=@language,edition=@edition " +
                     ",no_of_pages=@no_of_pages,book_description=@book_description,actual_stock=@actual_stock,current_stock=@current_stock" +
                     ",book_img_link=@book_img_link WHERE book_id = @book_id;", con);
                 cmd.Parameters.AddWithValue("@book_id", bookIDtxt.Text.Trim());
@@ -298,9 +298,11 @@ namespace WebApplicationLibrary_v2
             // In this example, the third column (index 2) contains
             // the first name.
 
+            int sBookID = int.Parse(row.Cells[1].Text.ToString());
+            Session["bookid"] = sBookID;
             string msg = "You selected " + row.Cells[1].Text + ".";
-
             Response.Write("<script>alert('" + msg + "')</script>");
+            getBookByID(sBookID);
         }
 
         protected void addPublisherBtn_Click(object sender, EventArgs e)
@@ -340,7 +342,7 @@ namespace WebApplicationLibrary_v2
 
         protected void ButtonGet_Click(object sender, EventArgs e)
         {
-            getBookByName();
+
         }
 
     }

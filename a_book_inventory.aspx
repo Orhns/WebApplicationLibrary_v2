@@ -58,7 +58,6 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <asp:TextBox CssClass="form-control" ID="bookNametxt" runat="server" placeholder="Book Name"></asp:TextBox>
-                                            <asp:Button class="btn btn-primary" ID="ButtonGet" runat="server" Text="Get" OnClick="ButtonGet_Click" />
                                         </div>
                                     </div>
                                 </div>
@@ -250,7 +249,7 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="d-grid gap-2">
-                                        <asp:Button class="btn btn-danger" ID="deleteBtn" runat="server" Text="Delete" OnClick="deleteBtn_Click" />
+                                        <asp:Button class="btn btn-danger" ID="deleteBtn" runat="server" Text="Delete" OnClick="deleteBtn_Click" OnClientClick="return confirm('are you sure?')"  />
                                     </div>
                                 </div>
                             </div>

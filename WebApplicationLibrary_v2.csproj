@@ -2293,6 +2293,8 @@
     <Compile Include="a_usrmng.aspx.designer.cs">
       <DependentUpon>a_usrmng.aspx</DependentUpon>
     </Compile>
+    <Compile Include="book.cs" />
+    <Compile Include="bookDAL.cs" />
     <Compile Include="home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2315,6 +2317,8 @@
     <Compile Include="uprofile.aspx.designer.cs">
       <DependentUpon>uprofile.aspx</DependentUpon>
     </Compile>
+    <Compile Include="user.cs" />
+    <Compile Include="userDAL.cs" />
     <Compile Include="usignup.aspx.cs">
       <DependentUpon>usignup.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

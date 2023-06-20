@@ -108,10 +108,15 @@
                                             <div class="col-md-2">
                                                 <img src="img/check.png" width="100px" />
                                             </div>
-                                            <div class="col-md-10 m-auto">
+                                            <div class="col-md-8 m-auto">
                                                 <center>
                                                     <h3 class="mt-2 ">Issued Book list</h3>
                                                 </center>
+                                            </div>
+                                            <div class="col-md-2 mt-2">
+                                                <div class="d-grid gap-2">
+                                                    <asp:Button class="btn btn-success" ID="returnBookBtn" runat="server" Text="Return" OnClick="returnBookBtn_Click" OnClientClick="return confirm('are you sure?')" Enabled="False" />
+                                                </div>
                                             </div>
                                         </div>
                                         <hr />
@@ -119,16 +124,19 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString='<%$ ConnectionStrings:ConnectionString %>' SelectCommand="SELECT * FROM [book_issue_tbl]"></asp:SqlDataSource>
+                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString='<%$ ConnectionStrings:webappLibraryDB_v2ConnectionString2 %>' SelectCommand="SELECT * FROM [book_issue_tbl]"></asp:SqlDataSource>
                                 <div class="col">
-                                    <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" OnRowDataBound="GridView1_RowDataBound">
+                                    <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" OnRowDataBound="GridView1_RowDataBound" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
                                         <Columns>
-                                            <asp:BoundField DataField="member_id" HeaderText="Member ID" SortExpression="member_id"></asp:BoundField>
+                                            <asp:CommandField ShowSelectButton="True" />
+                                            <asp:BoundField DataField="transaction_id" HeaderText="ID" InsertVisible="False" SortExpression="transaction_id" />
+                                            <asp:BoundField DataField="book_name" HeaderText="Book Name" SortExpression="book_name"></asp:BoundField>
                                             <asp:BoundField DataField="member_name" HeaderText="Member Name" SortExpression="member_name"></asp:BoundField>
                                             <asp:BoundField DataField="book_id" HeaderText="Book ID" SortExpression="book_id"></asp:BoundField>
-                                            <asp:BoundField DataField="book_name" HeaderText="Book Name" SortExpression="book_name"></asp:BoundField>
+                                            <asp:BoundField DataField="member_id" HeaderText="Member ID" SortExpression="member_id"></asp:BoundField>
                                             <asp:BoundField DataField="issue_date" HeaderText="Issue Date" SortExpression="issue_date"></asp:BoundField>
                                             <asp:BoundField DataField="due_date" HeaderText="Due Date" SortExpression="due_date"></asp:BoundField>
+                                            <asp:BoundField DataField="status" HeaderText="status" SortExpression="status" />
                                         </Columns>
                                     </asp:GridView>
                                 </div>

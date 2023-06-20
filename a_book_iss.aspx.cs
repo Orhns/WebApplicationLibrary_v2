@@ -14,6 +14,10 @@ namespace WebApplicationLibrary_v2
     public partial class a_book_i : System.Web.UI.Page
     {
         string conn = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        userDAL udal = new userDAL();
+        user user;
+        bookDAL bdal = new bookDAL();
+        book book;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -26,7 +30,7 @@ namespace WebApplicationLibrary_v2
 
         protected void issueBtn_Click(object sender, EventArgs e)
         {
-            if (checkifuserhave() )
+            if (checkifuserhave())
             {
                 Response.Write("<script>alert('Member already have this book.Can't get more than one.')</script>");
             }
@@ -200,13 +204,14 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("DELETE FROM book_issue_tbl WHERE member_id = @member_id AND book_id = @book_id ;", con);
-                cmd.Parameters.AddWithValue("@member_id", memberidTxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@book_id", bookidTxt.Text.Trim());
+                SqlCommand cmd = new SqlCommand("UPDATE book_issue_tbl SET status = 0 WHERE transaction_id = @transaction_id;", con);
+                int tid = int.Parse(Session["Tselection"].ToString());
+                cmd.Parameters.AddWithValue("@transaction_id", tid);
                 cmd.ExecuteNonQuery();
 
                 cmd = new SqlCommand("UPDATE book_master_tbl SET current_stock = current_stock+1 WHERE book_id=@book_id ;", con);
-                cmd.Parameters.AddWithValue("@book_id", bookidTxt.Text.Trim());
+                int bid = int.Parse(Session["Bselection"].ToString());
+                cmd.Parameters.AddWithValue("@book_id", bid);
                 cmd.ExecuteNonQuery();
                 con.Close();
                 Response.Write("<script>alert('Returned')</script>");
@@ -256,10 +261,40 @@ namespace WebApplicationLibrary_v2
                 {
                     DateTime dt = Convert.ToDateTime(e.Row.Cells[5].Text);
                     DateTime today = DateTime.Today;
-                    if (today > dt) {
+                    if (today > dt)
+                    {
                         e.Row.BackColor = System.Drawing.Color.PaleVioletRed;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + ex.Message + "')</script>");
+            }
+        }
+
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the currently selected row using the SelectedRow property.
+            GridViewRow row = GridView1.SelectedRow;
+
+            // Display the first name from the selected row.
+            // In this example, the third column (index 2) contains
+            // the first name.
+
+            int sTransactionID = int.Parse(row.Cells[1].Text.ToString());
+            int sbookID = int.Parse(row.Cells[4].Text.ToString());
+            Session["Bselection"] = sbookID;
+            Session["Tselection"] = sTransactionID;
+            string msg = "Selected transaction : " + row.Cells[1].Text + ".";
+            Response.Write("<script>alert('" + msg + "')</script>");
+            returnBookBtn.Enabled = true;
+        }
+        protected void returnBookBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                returnBook(); 
             }
             catch (Exception ex)
             {
