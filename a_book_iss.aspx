@@ -34,64 +34,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="TextBox2" class="form-label">Member ID</label>
-                                    <div class="form-group">
-                                        <asp:TextBox CssClass="form-control" ID="memberidTxt" runat="server" placeholder="Member ID"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="TextBox1" class="form-label">Book ID</label>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <asp:TextBox CssClass="form-control" ID="bookidTxt" runat="server" placeholder="Book ID"></asp:TextBox>
-                                            <asp:Button class="btn btn-primary" ID="getBtn" runat="server" Text="Get" OnClick="getBtn_Click" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mt-3">
-                                    <label for="TextBox3" class="form-label">Member Name</label>
-                                    <div class="form-group">
-                                        <asp:TextBox CssClass="form-control" ID="membernameTxt" runat="server" placeholder="Member Name" ReadOnly="True"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-3">
-                                    <label for="TextBox4" class="form-label">Book Name</label>
-                                    <div class="form-group">
-                                        <asp:TextBox CssClass="form-control" ID="booknameTxt" runat="server" placeholder="Book Name" ReadOnly="True"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row ">
-                                <div class="col-md-6 mt-3">
-                                    <label for="TextBox5" class="form-label">Start Date</label>
-                                    <div class="form-group">
-                                        <asp:TextBox CssClass="form-control" ID="startdateTxt" runat="server" placeholder="Member Name" TextMode="Date"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mt-3">
-                                    <label for="TextBox6" class="form-label">End Date</label>
-                                    <div class="form-group">
-                                        <asp:TextBox CssClass="form-control" ID="enddateTxt" runat="server" placeholder="Book Name" TextMode="Date"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6 mt-4">
-                                    <div class="d-grid gap-2">
-                                        <asp:Button class="btn btn-primary" ID="issueBtn" runat="server" Text="Issue" OnClick="issueBtn_Click" />
-                                    </div>
-                                </div>
-                                <div class="col-6 mt-4">
-                                    <div class="d-grid gap-2">
-                                        <asp:Button class="btn btn-success" ID="returnBtn" runat="server" Text="Return" OnClick="returnBtn_Click" />
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -138,6 +81,7 @@
                                             <asp:BoundField DataField="due_date" HeaderText="Due Date" SortExpression="due_date"></asp:BoundField>
                                             <asp:BoundField DataField="status" HeaderText="status" SortExpression="status" />
                                         </Columns>
+                                        <SelectedRowStyle BackColor="#3399FF" />
                                     </asp:GridView>
                                 </div>
                             </div>

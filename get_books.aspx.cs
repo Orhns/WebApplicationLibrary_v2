@@ -70,7 +70,7 @@ namespace WebApplicationLibrary_v2
                 cmd.Parameters.AddWithValue("@book_name", book.book_name);
                 cmd.Parameters.AddWithValue("@issue_date", thisDay.ToString());
                 cmd.Parameters.AddWithValue("@due_date", returnDate.ToString());
-                cmd.Parameters.AddWithValue("@status", 1);
+                cmd.Parameters.AddWithValue("@status", "Not Returned");
                 cmd.ExecuteNonQuery();
 
                 cmd = new SqlCommand("UPDATE book_master_tbl SET current_stock = current_stock-1 WHERE book_id=@book_id ;", con);

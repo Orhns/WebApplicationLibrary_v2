@@ -22,179 +22,6 @@ namespace WebApplicationLibrary_v2
         {
 
         }
-
-        protected void getBtn_Click(object sender, EventArgs e)
-        {
-            getNames();
-        }
-
-        protected void issueBtn_Click(object sender, EventArgs e)
-        {
-            if (checkifuserhave())
-            {
-                Response.Write("<script>alert('Member already have this book.Can't get more than one.')</script>");
-            }
-            else
-            {
-                if (CheckUser() && checkBook())
-                {
-                    issueBook();
-                }
-                else
-                {
-                    Response.Write("<script>alert('Invalid user or member ID's')</script>");
-                }
-            }
-        }
-
-        protected void returnBtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (checkifuserhave())
-                {
-                    returnBook();
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "')</script>");
-            }
-        }
-
-        bool bookcheck;
-        bool checkBook()
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection(conn);
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM book_master_tbl WHERE book_id = @book_id AND current_stock > 0 ;", con);
-                cmd.Parameters.AddWithValue("@book_id", bookidTxt.Text.Trim());
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    bookcheck = true;
-                }
-                else
-                {
-                    bookcheck = false;
-                }
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "')</script>");
-            }
-            return bookcheck;
-        }
-        bool usrcheck;
-        bool CheckUser()
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection(conn);
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM member_master_tbl WHERE member_id = @member_id ;", con);
-                cmd.Parameters.AddWithValue("@member_id", memberidTxt.Text.Trim());
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    usrcheck = true;
-                }
-                else
-                {
-                    usrcheck = false;
-                }
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "')</script>");
-            }
-            return usrcheck;
-        }
-        void getNames()
-        {
-            try
-            {
-
-                SqlConnection con = new SqlConnection(conn);
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                SqlCommand cmd = new SqlCommand("SELECT book_name FROM book_master_tbl WHERE book_id = @book_id;", con);
-                cmd.Parameters.AddWithValue("@book_id", bookidTxt.Text.Trim());
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    booknameTxt.Text = dt.Rows[0]["book_name"].ToString();
-                }
-                else
-                {
-                    Response.Write("<script>alert('Invalid Book ID')</script>");
-                }
-
-                cmd = new SqlCommand("SELECT full_name FROM member_master_tbl WHERE member_id = @member_id;", con);
-                cmd.Parameters.AddWithValue("@member_id", memberidTxt.Text.Trim());
-                adapter = new SqlDataAdapter(cmd);
-                dt = new DataTable();
-                adapter.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    membernameTxt.Text = dt.Rows[0]["full_name"].ToString();
-                }
-                else
-                {
-                    Response.Write("<script>alert('Invalid Member ID')</script>");
-                }
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "')</script>");
-            }
-        }
-        void issueBook()
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection(conn);
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                SqlCommand cmd = new SqlCommand("INSERT INTO book_issue_tbl (member_id,member_name,book_id,book_name,issue_date,due_date) " +
-                    "VALUES (@member_id,@member_name,@book_id,@book_name,@issue_date,@due_date);", con);
-                cmd.Parameters.AddWithValue("@member_id", memberidTxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@member_name", membernameTxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@book_id", bookidTxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@book_name", booknameTxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@issue_date", startdateTxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@due_date", enddateTxt.Text.Trim());
-                cmd.ExecuteNonQuery();
-
-                cmd = new SqlCommand("UPDATE book_master_tbl SET current_stock = current_stock-1 WHERE book_id=@book_id ;", con);
-                cmd.Parameters.AddWithValue("@book_id", bookidTxt.Text.Trim());
-                cmd.ExecuteNonQuery();
-                con.Close();
-                Response.Write("<script>alert('Book issued succesfully.')</script>");
-                GridView1.DataBind();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "')</script>");
-            }
-        }
         void returnBook()
         {
             try
@@ -204,7 +31,7 @@ namespace WebApplicationLibrary_v2
                 {
                     con.Open();
                 }
-                SqlCommand cmd = new SqlCommand("UPDATE book_issue_tbl SET status = 0 WHERE transaction_id = @transaction_id;", con);
+                SqlCommand cmd = new SqlCommand("UPDATE book_issue_tbl SET status = 'Returned' WHERE transaction_id = @transaction_id;", con);
                 int tid = int.Parse(Session["Tselection"].ToString());
                 cmd.Parameters.AddWithValue("@transaction_id", tid);
                 cmd.ExecuteNonQuery();
@@ -222,36 +49,6 @@ namespace WebApplicationLibrary_v2
                 Response.Write("<script>alert('" + ex.Message + "')</script>");
             }
         }
-        bool checkonhand;
-        bool checkifuserhave()
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection(conn);
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                SqlCommand cmd = new SqlCommand("SELECT * FROM book_issue_tbl WHERE member_id = @member_id AND book_id = @book_id;", con);
-                cmd.Parameters.AddWithValue("@member_id", memberidTxt.Text.Trim());
-                cmd.Parameters.AddWithValue("@book_id", bookidTxt.Text.Trim());
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    checkonhand = true;
-                }
-                else
-                {
-                    checkonhand = false;
-                }
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "')</script>");
-            }
-            return checkonhand;
-        }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -259,11 +56,16 @@ namespace WebApplicationLibrary_v2
             {
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    DateTime dt = Convert.ToDateTime(e.Row.Cells[5].Text);
+                    string status = e.Row.Cells[8].Text;
+                    DateTime dt = Convert.ToDateTime(e.Row.Cells[7].Text);
                     DateTime today = DateTime.Today;
-                    if (today > dt)
+                    if (today > dt && status == "Not Returned")
                     {
                         e.Row.BackColor = System.Drawing.Color.PaleVioletRed;
+                    }
+                    else if (status == "Returned")
+                    {
+                        e.Row.BackColor = System.Drawing.Color.MediumSeaGreen;
                     }
                 }
             }
