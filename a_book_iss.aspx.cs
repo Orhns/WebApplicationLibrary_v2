@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.DataVisualization.Charting;
 using System.Web.UI.WebControls;
 
 namespace WebApplicationLibrary_v2
@@ -20,7 +21,7 @@ namespace WebApplicationLibrary_v2
         book book;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            createChartTable();
         }
         void returnBook()
         {
@@ -96,11 +97,27 @@ namespace WebApplicationLibrary_v2
         {
             try
             {
-                returnBook(); 
+                returnBook();
             }
             catch (Exception ex)
             {
                 Response.Write("<script>alert('" + ex.Message + "')</script>");
+            }
+        }
+
+        void createChartTable()
+        {
+            SqlConnection con = new SqlConnection(conn);
+            if (con.State == ConnectionState.Closed)
+            {
+                con.Open();
+            }
+            SqlCommand cmd = new SqlCommand("SELECT book_name, COUNT(*) AS readed FROM book_issue_tbl GROUP BY book_name", con);
+            Series series = Chart1.Series["Series1"];
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                series.Points.AddXY(rdr["book_name"].ToString(), rdr["readed"]);
             }
         }
     }

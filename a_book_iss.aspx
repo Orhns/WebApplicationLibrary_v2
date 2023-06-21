@@ -24,7 +24,7 @@
                                             </div>
                                             <div class="col-md-10 m-auto">
                                                 <center>
-                                                    <h3 class="mt-2 ">Book Issuing</h3>
+                                                    <h3 class="mt-2 ">Reading Stats</h3>
                                                 </center>
                                             </div>
                                         </div>
@@ -34,7 +34,16 @@
                             </div>
 
                             <div class="row">
-                               
+                               <div class="col">
+                                   <asp:Chart ID="Chart1" runat="server" Width="700px">
+                                       <Series>
+                                           <asp:Series Name="Series1" ChartType="StackedBar" YValuesPerPoint="4"></asp:Series>
+                                       </Series>
+                                       <ChartAreas>
+                                           <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
+                                       </ChartAreas>
+                                   </asp:Chart>
+                               </div>
                             </div>
                         </div>
                     </div>
@@ -67,8 +76,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString='<%$ ConnectionStrings:webappLibraryDB_v2ConnectionString2 %>' SelectCommand="SELECT * FROM [book_issue_tbl]"></asp:SqlDataSource>
-                                <div class="col">
+                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString='<%$ ConnectionStrings:webappLibraryDB_v2ConnectionString %>' SelectCommand="SELECT * FROM [book_issue_tbl]"></asp:SqlDataSource>
+                                <div class="col table-responsive" >
                                     <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" OnRowDataBound="GridView1_RowDataBound" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
                                         <Columns>
                                             <asp:CommandField ShowSelectButton="True" />
