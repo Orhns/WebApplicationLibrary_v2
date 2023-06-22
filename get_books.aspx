@@ -102,9 +102,6 @@
                                                 </div>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-
-
-
                                     </Columns>
                                     <SelectedRowStyle BackColor="#3399FF" />
                                 </asp:GridView>

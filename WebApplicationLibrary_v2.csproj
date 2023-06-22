@@ -2262,7 +2262,6 @@
     <Content Include="ulogin.aspx" />
     <Content Include="vbooks.aspx" />
     <Content Include="Web.config" />
-    <Content Include="getBooks111.aspx" />
     <Content Include="get_books.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -2340,13 +2339,6 @@
     </Compile>
     <Compile Include="vbooks.aspx.designer.cs">
       <DependentUpon>vbooks.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="getBooks111.aspx.cs">
-      <DependentUpon>getBooks111.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="getBooks111.aspx.designer.cs">
-      <DependentUpon>getBooks111.aspx</DependentUpon>
     </Compile>
     <Compile Include="get_books.aspx.cs">
       <DependentUpon>get_books.aspx</DependentUpon>
