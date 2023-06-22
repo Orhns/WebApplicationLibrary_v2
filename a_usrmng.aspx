@@ -42,23 +42,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-9">
                                     <label for="TextBox2" class="form-label">Full Name</label>
                                     <div class="form-group">
                                         <asp:TextBox CssClass="form-control" ID="nametxt" runat="server" ReadOnly="True"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <label for="TextBox7" class="form-label">Account Status</label>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <asp:TextBox CssClass="form-control" ID="statustxt" runat="server" ReadOnly="True"></asp:TextBox>
-                                            <asp:LinkButton class="btn btn-success" runat="server" ID="activatebutton" OnClick="activatebutton_Click"><i class="fa-solid fa-square-check"></i></asp:LinkButton>
-                                            <asp:LinkButton class="btn btn-warning" ID="pendingbutton" runat="server" OnClick="pendingbutton_Click"><i class="fa-solid fa-circle-pause"></i></asp:LinkButton>
-                                            <asp:LinkButton class="btn btn-danger" ID="deactivatebutton" runat="server" OnClick="deactivatebutton_Click"><i class="fa-solid fa-square-xmark"></i></asp:LinkButton>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
 
                             <div class="row">

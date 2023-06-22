@@ -49,7 +49,7 @@ namespace WebApplicationLibrary_v2
                         citytxt.Text = reader.GetString(7);
                         pincodetxt.Text = reader.GetString(8);
                         addresstxt.Text = reader.GetString(9);
-                        statustxt.Text = reader.GetString(10);
+                        
                     }
                 }
                 else
@@ -152,7 +152,7 @@ namespace WebApplicationLibrary_v2
             citytxt.Text = null;
             pincodetxt.Text = null;
             addresstxt.Text = null;
-            statustxt.Text = null;
+            
         }
         bool idcheck;
         bool chechAutID()

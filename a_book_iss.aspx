@@ -35,7 +35,7 @@
 
                             <div class="row">
                                <div class="col">
-                                   <asp:Chart ID="Chart1" runat="server" Width="700px">
+                                   <asp:Chart ID="Chart1" runat="server" Width="650px" >
                                        <Series>
                                            <asp:Series Name="Series1" ChartType="StackedBar" YValuesPerPoint="4"></asp:Series>
                                        </Series>

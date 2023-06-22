@@ -42,42 +42,6 @@ namespace WebApplicationLibrary_v2
         protected global::System.Web.UI.WebControls.TextBox nametxt;
 
         /// <summary>
-        /// statustxt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox statustxt;
-
-        /// <summary>
-        /// activatebutton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton activatebutton;
-
-        /// <summary>
-        /// pendingbutton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton pendingbutton;
-
-        /// <summary>
-        /// deactivatebutton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton deactivatebutton;
-
-        /// <summary>
         /// birthtxt control.
         /// </summary>
         /// <remarks>
